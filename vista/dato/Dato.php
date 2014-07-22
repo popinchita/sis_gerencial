@@ -15,8 +15,7 @@ Phx.vista.Dato=Ext.extend(Phx.gridInterfaz,{
 	constructor:function(config){
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
-    	//linea añadida de prueba
-		Phx.vista.Dato.superclass.constructor.call(this,config);
+    	Phx.vista.Dato.superclass.constructor.call(this,config);
 		this.init();
 		this.load({params:{start:0, limit:this.tam_pag}})
 	},
