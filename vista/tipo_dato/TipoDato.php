@@ -15,6 +15,7 @@ Phx.vista.TipoDato=Ext.extend(Phx.gridInterfaz,{
 	constructor:function(config){
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
+		
 		Phx.vista.TipoDato.superclass.constructor.call(this,config);
 		this.init();
 		this.load({params:{start:0, limit:this.tam_pag}})
@@ -137,7 +138,28 @@ Phx.vista.TipoDato=Ext.extend(Phx.gridInterfaz,{
 				id_grupo:1,
 				grid:true,
 				form:false
-		}
+		},
+		{
+			config:{
+				name: 'tipo_dato',
+				fieldLabel: 'Tipo de Dato',
+				allowBlank: false,
+				emptyText:'Tipo de Dato...',
+				typeAhead: true,
+	       		triggerAction: 'all',
+	       		lazyRender:true,
+	       		mode: 'local',
+				gwidth: 100,
+				store:['variable','formula']
+			},
+				type:'ComboBox',
+				filters:{type: 'list',
+     				 options: ['variable','formula'],
+     				},
+				id_grupo:1,
+				grid:true,
+				form:true
+		},
 	],
 	tam_pag:50,	
 	title:'Tipo Dato',
@@ -156,7 +178,7 @@ Phx.vista.TipoDato=Ext.extend(Phx.gridInterfaz,{
 		{name:'fecha_mod', type: 'date',dateFormat:'Y-m-d H:i:s.u'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
-		
+		{name:'tipo_dato', type: 'string'},
 	],
 	sortInfo:{
 		field: 'id_tipo_dato',
@@ -164,7 +186,25 @@ Phx.vista.TipoDato=Ext.extend(Phx.gridInterfaz,{
 	},
 	bdel:true,
 	bsave:true
-	}
+	,
+	
+    east:{
+		  url:'../../../sis_gerencial/vista/dato/Dato.php',
+		  title:'Definicion de Datos', 
+		  width:'50%',
+		  cls:'Dato'
+	},
+	EnableSelect: function(n,extra) {
+			
+	        var data = this.getSelectedData();
+	        if(data.tipo_dato=='formula'){
+	        	 this.onEnablePanel(this.idContenedor + '-east', data, n);
+		    }else{
+		    	 this.onDisablePanel(this.idContenedor + '-east');
+		    }
+	 }
+		
+}
 )
 </script>
 		

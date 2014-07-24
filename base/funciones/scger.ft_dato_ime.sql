@@ -1,8 +1,11 @@
-CREATE OR REPLACE FUNCTION "scger"."ft_dato_ime" (	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
-
+CREATE OR REPLACE FUNCTION scger.ft_dato_ime (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		Sistema de Control Gerencial
  FUNCION: 		scger.ft_dato_ime
@@ -27,7 +30,12 @@ DECLARE
 	v_nombre_funcion        text;
 	v_mensaje_error         text;
 	v_id_dato	integer;
-			    
+    
+    --24.07.2014
+    v_ultima_columna	varchar;
+    v_bandera 	boolean;
+	v_codigo		    varchar;
+    v_formula	varchar;
 BEGIN
 
     v_nombre_funcion = 'scger.ft_dato_ime';
@@ -43,6 +51,35 @@ BEGIN
 	if(p_transaccion='SCGER_DATO_INS')then
 					
         begin
+        
+        v_bandera:=true;
+        v_formula:=v_parametros.formula;
+           --validacion de formula
+           if exists (select 1 from scger.tdato where id_tipo_dato=v_parametros.id_tipo_dato and estado_reg='activo') then
+              raise exception 'Insercion no realizada. Existe una definicion para el tipo de dato seleccionado';
+           end if;
+           
+           
+           while (v_bandera) loop
+           
+               v_ultima_columna:=(select substring(v_formula from '%#"#{%#}#"%' for '#'));
+               v_codigo= split_part(v_ultima_columna,'{',2);
+               v_codigo= split_part( v_codigo,'}',1);
+               
+               if (v_codigo is not null) then
+		         if exists (select 1 from  scger.ttipo_dato where upper(codigo)=upper(v_codigo)) then
+                 	v_formula = replace( v_formula,v_ultima_columna, '');
+              	 else
+                 	raise exception '% no es un tipo de dato valido. Verifique que se trate de un tipo_dato VARIABLE', v_codigo;
+                 end if;
+               else
+                 v_bandera:=false;
+               end if;
+           
+           end loop;
+        
+           
+           
         	--Sentencia de la insercion
         	insert into scger.tdato(
 			id_tipo_dato,
@@ -51,7 +88,7 @@ BEGIN
 			fecha_reg,
 			id_usuario_reg,
 			fecha_mod,
-			id_usuario_mod
+			id_usuario_mod, orden_ejecucion
           	) values(
 			v_parametros.id_tipo_dato,
 			v_parametros.formula,
@@ -59,7 +96,7 @@ BEGIN
 			now(),
 			p_id_usuario,
 			null,
-			null
+			null,v_parametros.orden_ejecucion
 							
 			)RETURNING id_dato into v_id_dato;
 			
@@ -87,7 +124,8 @@ BEGIN
 			id_tipo_dato = v_parametros.id_tipo_dato,
 			formula = v_parametros.formula,
 			fecha_mod = now(),
-			id_usuario_mod = p_id_usuario
+			id_usuario_mod = p_id_usuario,
+            orden_ejecucion=v_parametros.orden_ejecucion
 			where id_dato=v_parametros.id_dato;
                
 			--Definicion de la respuesta
@@ -138,7 +176,9 @@ EXCEPTION
 		raise exception '%',v_resp;
 				        
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "scger"."ft_dato_ime"(integer, integer, character varying, character varying) OWNER TO postgres;

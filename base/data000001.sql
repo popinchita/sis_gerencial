@@ -93,3 +93,17 @@ select pxp.f_insert_tprocedimiento ('SCGER_DATO_CONT', 'Conteo de registros', 's
 /********************************************F-DAT-MZM-SCGER-1-22/07/2014********************************************/
 
 
+
+  ----------------------------------
+--COPY LINES TO data.sql FILE  
+---------------------------------
+/********************************************I-DAT-MZM-SCGER-1-23/07/2014********************************************/
+select pxp.f_insert_tgui ('Filial', 'Filial', 'FILI', 'si', 5, 'sis_gerencial/vista/filial/Filial.php', 2, '', 'Filial', 'SCGER');
+select pxp.f_insert_tfuncion ('scger.ft_filial_sel', 'Funcion para tabla     ', 'SCGER');
+select pxp.f_insert_tfuncion ('scger.ft_filial_ime', 'Funcion para tabla     ', 'SCGER');
+select pxp.f_insert_tprocedimiento ('SCGER_FILI_SEL', 'Consulta de datos', 'si', '', '', 'scger.ft_filial_sel');
+select pxp.f_insert_tprocedimiento ('SCGER_FILI_CONT', 'Conteo de registros', 'si', '', '', 'scger.ft_filial_sel');
+select pxp.f_insert_tprocedimiento ('SCGER_FILI_INS', 'Insercion de registros', 'si', '', '', 'scger.ft_filial_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_FILI_MOD', 'Modificacion de registros', 'si', '', '', 'scger.ft_filial_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_FILI_ELI', 'Eliminacion de registros', 'si', '', '', 'scger.ft_filial_ime');
+/********************************************F-DAT-MZM-SCGER-1-23/07/2014********************************************/

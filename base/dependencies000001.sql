@@ -72,5 +72,28 @@ select pxp.f_insert_tprocedimiento_gui ('SCGER_DATO_ELI', 'DATO', 'no');
 select pxp.f_insert_tprocedimiento_gui ('SCGER_DATO_SEL', 'DATO', 'no');
 /********************************************F-DEP-MZM-SCGER-1-22/07/2014********************************************/
 
+/********************************************I-DEP-MZM-SCGER-1-23/07/2014********************************************/
+ALTER TABLE scger.ttipo_dato
+  ADD   UNIQUE (codigo);
+  
+select pxp.f_insert_testructura_gui ('FILI', 'SCGER');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_TIPDAT_SEL', 'DATO', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_FILI_INS', 'FILI', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_FILI_MOD', 'FILI', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_FILI_ELI', 'FILI', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_FILI_SEL', 'FILI', 'no');
+  
+ALTER TABLE scger.ttipo_dato
+  ADD COLUMN tipo_dato VARCHAR(20);
+
+ALTER TABLE scger.ttipo_dato
+  ALTER COLUMN tipo_dato SET DEFAULT 'variable';
+
+COMMENT ON COLUMN scger.ttipo_dato.tipo_dato
+IS 'variable, formula';
 
 
+ALTER TABLE scger.tdato
+  ADD COLUMN orden_ejecucion INTEGER;
+
+/********************************************F-DEP-MZM-SCGER-1-23/07/2014********************************************/

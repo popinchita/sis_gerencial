@@ -1,17 +1,14 @@
-CREATE OR REPLACE FUNCTION scger.ft_tipo_dato_ime (
-  p_administrador integer,
-  p_id_usuario integer,
-  p_tabla varchar,
-  p_transaccion varchar
-)
-RETURNS varchar AS
-$body$
+CREATE OR REPLACE FUNCTION "scger"."ft_filial_ime" (	
+				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
+RETURNS character varying AS
+$BODY$
+
 /**************************************************************************
  SISTEMA:		Sistema de Control Gerencial
- FUNCION: 		scger.ft_tipo_dato_ime
- DESCRIPCION:   Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla 'scger.ttipo_dato'
+ FUNCION: 		scger.ft_filial_ime
+ DESCRIPCION:   Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla 'scger.tfilial'
  AUTOR: 		 (admin)
- FECHA:	        22-07-2014 01:34:27
+ FECHA:	        23-07-2014 16:09:32
  COMENTARIOS:	
 ***************************************************************************
  HISTORIAL DE MODIFICACIONES:
@@ -29,48 +26,58 @@ DECLARE
 	v_resp		            varchar;
 	v_nombre_funcion        text;
 	v_mensaje_error         text;
-	v_id_tipo_dato	integer;
+	v_id_filial	integer;
 			    
 BEGIN
 
-    v_nombre_funcion = 'scger.ft_tipo_dato_ime';
+    v_nombre_funcion = 'scger.ft_filial_ime';
     v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************    
- 	#TRANSACCION:  'SCGER_TIPDAT_INS'
+ 	#TRANSACCION:  'SCGER_FILI_INS'
  	#DESCRIPCION:	Insercion de registros
  	#AUTOR:		admin	
- 	#FECHA:		22-07-2014 01:34:27
+ 	#FECHA:		23-07-2014 16:09:32
 	***********************************/
 
-	if(p_transaccion='SCGER_TIPDAT_INS')then
+	if(p_transaccion='SCGER_FILI_INS')then
 					
         begin
         	--Sentencia de la insercion
-        	insert into scger.ttipo_dato(
-			codigo,
+        	insert into scger.tfilial(
+			sigla,
 			nombre,
+			id_rubro,
+			nit,
+			logo,
 			estado_reg,
 			id_usuario_reg,
 			fecha_reg,
+			usuario_ai,
+			id_usuario_ai,
 			id_usuario_mod,
-			fecha_mod,
-			tipo_dato
+			fecha_mod
           	) values(
-			v_parametros.codigo,
+			v_parametros.sigla,
 			v_parametros.nombre,
+			v_parametros.id_rubro,
+			v_parametros.nit,
+			v_parametros.logo,
 			'activo',
 			p_id_usuario,
 			now(),
+			v_parametros._nombre_usuario_ai,
+			v_parametros._id_usuario_ai,
 			null,
-			null,
-			v_parametros.tipo_dato
+			null
 							
-			)RETURNING id_tipo_dato into v_id_tipo_dato;
+			
+			
+			)RETURNING id_filial into v_id_filial;
 			
 			--Definicion de la respuesta
-			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Tipo Dato almacenado(a) con exito (id_tipo_dato'||v_id_tipo_dato||')'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_tipo_dato',v_id_tipo_dato::varchar);
+			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Filial almacenado(a) con exito (id_filial'||v_id_filial||')'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_filial',v_id_filial::varchar);
 
             --Devuelve la respuesta
             return v_resp;
@@ -78,27 +85,31 @@ BEGIN
 		end;
 
 	/*********************************    
- 	#TRANSACCION:  'SCGER_TIPDAT_MOD'
+ 	#TRANSACCION:  'SCGER_FILI_MOD'
  	#DESCRIPCION:	Modificacion de registros
  	#AUTOR:		admin	
- 	#FECHA:		22-07-2014 01:34:27
+ 	#FECHA:		23-07-2014 16:09:32
 	***********************************/
 
-	elsif(p_transaccion='SCGER_TIPDAT_MOD')then
+	elsif(p_transaccion='SCGER_FILI_MOD')then
 
 		begin
 			--Sentencia de la modificacion
-			update scger.ttipo_dato set
-			codigo = v_parametros.codigo,
+			update scger.tfilial set
+			sigla = v_parametros.sigla,
 			nombre = v_parametros.nombre,
+			id_rubro = v_parametros.id_rubro,
+			nit = v_parametros.nit,
+			logo = v_parametros.logo,
 			id_usuario_mod = p_id_usuario,
 			fecha_mod = now(),
-            tipo_dato=v_parametros.tipo_dato
-			where id_tipo_dato=v_parametros.id_tipo_dato;
+			id_usuario_ai = v_parametros._id_usuario_ai,
+			usuario_ai = v_parametros._nombre_usuario_ai
+			where id_filial=v_parametros.id_filial;
                
 			--Definicion de la respuesta
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Tipo Dato modificado(a)'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_tipo_dato',v_parametros.id_tipo_dato::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Filial modificado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_filial',v_parametros.id_filial::varchar);
                
             --Devuelve la respuesta
             return v_resp;
@@ -106,22 +117,22 @@ BEGIN
 		end;
 
 	/*********************************    
- 	#TRANSACCION:  'SCGER_TIPDAT_ELI'
+ 	#TRANSACCION:  'SCGER_FILI_ELI'
  	#DESCRIPCION:	Eliminacion de registros
  	#AUTOR:		admin	
- 	#FECHA:		22-07-2014 01:34:27
+ 	#FECHA:		23-07-2014 16:09:32
 	***********************************/
 
-	elsif(p_transaccion='SCGER_TIPDAT_ELI')then
+	elsif(p_transaccion='SCGER_FILI_ELI')then
 
 		begin
 			--Sentencia de la eliminacion
-			delete from scger.ttipo_dato
-            where id_tipo_dato=v_parametros.id_tipo_dato;
+			delete from scger.tfilial
+            where id_filial=v_parametros.id_filial;
                
             --Definicion de la respuesta
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Tipo Dato eliminado(a)'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_tipo_dato',v_parametros.id_tipo_dato::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Filial eliminado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_filial',v_parametros.id_filial::varchar);
               
             --Devuelve la respuesta
             return v_resp;
@@ -144,9 +155,7 @@ EXCEPTION
 		raise exception '%',v_resp;
 				        
 END;
-$body$
-LANGUAGE 'plpgsql'
-VOLATILE
-CALLED ON NULL INPUT
-SECURITY INVOKER
+$BODY$
+LANGUAGE 'plpgsql' VOLATILE
 COST 100;
+ALTER FUNCTION "scger"."ft_filial_ime"(integer, integer, character varying, character varying) OWNER TO postgres;

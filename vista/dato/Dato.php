@@ -16,6 +16,8 @@ Phx.vista.Dato=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
     	Phx.vista.Dato.superclass.constructor.call(this,config);
+
+
 		this.init();
 		this.load({params:{start:0, limit:this.tam_pag}})
 	},
@@ -32,47 +34,14 @@ Phx.vista.Dato=Ext.extend(Phx.gridInterfaz,{
 			form:true 
 		},
 		{
-			config: {
-				name: 'id_tipo_dato',
-				fieldLabel: 'Tipo Dato',
-				allowBlank: true,
-				emptyText: 'Elija una opción...',
-				store: new Ext.data.JsonStore({
-					url: '../../sis_gerencial/control/TipoDato/listarTipoDato',
-					id: 'id_tipo_dato',
-					root: 'datos',
-					sortInfo: {
-						field: 'nombre',
-						direction: 'ASC'
-					},
-					totalProperty: 'total',
-					fields: ['id_tipo_dato', 'nombre', 'codigo'],
-					remoteSort: true,
-					baseParams: {par_filtro: 'tipdat.nombre#tipdat.codigo'}
-				}),
-				valueField: 'id_tipo_dato',
-				displayField: 'nombre',
-				gdisplayField: 'nombre',
-				hiddenName: 'id_tipo_dato',
-				forceSelection: true,
-				typeAhead: false,
-				triggerAction: 'all',
-				lazyRender: true,
-				mode: 'remote',
-				pageSize: 15,
-				queryDelay: 1000,
-				anchor: '100%',
-				gwidth: 150,
-				minChars: 2,
-				renderer : function(value, p, record) {
-					return String.format('{0}', record.data['nombre']);
-				}
+			//configuracion del componente
+			config:{
+					labelSeparator:'',
+					inputType:'hidden',
+					name: 'id_tipo_dato'
 			},
-			type: 'ComboBox',
-			id_grupo: 0,
-			filters: {pfiltro: 'tipdat.nombre',type: 'string'},
-			grid: true,
-			form: true
+			type:'Field',
+			form:true 
 		},
 		{
 			config:{
@@ -80,7 +49,7 @@ Phx.vista.Dato=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Formula',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 100,
+				gwidth: 250,
 				maxLength:500
 			},
 				type:'TextField',
@@ -165,6 +134,21 @@ Phx.vista.Dato=Ext.extend(Phx.gridInterfaz,{
 				id_grupo:1,
 				grid:true,
 				form:false
+		},
+		{
+			config:{
+				name: 'orden_ejecucion',
+				fieldLabel: 'Orden Ejecucion',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength:4
+			},
+				type:'NumberField',
+				filters:{pfiltro:'dato.orden_ejecucion',type:'string'},
+				id_grupo:1,
+				grid:true,
+				form:true
 		}
 	],
 	tam_pag:50,	
@@ -184,14 +168,33 @@ Phx.vista.Dato=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
-		
+		{name:'nombre', type: 'string'},
+		{name:'orden_ejecucion', type: 'numeric'},
 	],
 	sortInfo:{
 		field: 'id_dato',
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
+	bsave:true,
+
+	onSubmit:function(o){
+	 this.Cmp.formula.setValue(encodeURIComponent(this.Cmp.formula.getValue()));
+	  Phx.vista.Dato.superclass.onSubmit.call(this,o);
+	},
+    onReloadPage:function(m){
+		this.maestro=m;			
+		this.getBoton('act').enable();	
+		this.load({params:{start:0, limit:this.tam_pag,id_tipo_dato:this.maestro.id_tipo_dato}});			
+	},
+	loadValoresIniciales:function()
+    {
+        this.Cmp.id_tipo_dato.setValue(this.maestro.id_tipo_dato);       
+        Phx.vista.Dato.superclass.loadValoresIniciales.call(this);
+    },
+    
+
+	
 	}
 )
 </script>
