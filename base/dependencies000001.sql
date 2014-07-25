@@ -127,3 +127,67 @@ select pxp.f_insert_tprocedimiento_gui ('SCGER_VALOR_SEL', 'VALOR', 'no');
 /********************************************F-DEP-MZM-SCGER-1-25/07/2014********************************************/
 
     
+/********************************************I-DEP-MZM-SCGER-1-31/07/2014********************************************/
+select pxp.f_delete_testructura_gui ('DATO', 'SCGER');
+
+select pxp.f_insert_testructura_gui ('VALOR', 'SCGER');
+select pxp.f_insert_testructura_gui ('TIPDAT.1', 'TIPDAT');
+select pxp.f_insert_testructura_gui ('USUGER', 'SCGER');
+select pxp.f_insert_testructura_gui ('GES.1', 'GES');
+select pxp.f_insert_testructura_gui ('USUGER.1', 'USUGER');
+select pxp.f_insert_testructura_gui ('USUGER.2', 'USUGER');
+select pxp.f_insert_testructura_gui ('USUGER.3', 'USUGER');
+select pxp.f_insert_testructura_gui ('USUGER.1.1', 'USUGER.1');
+select pxp.f_insert_testructura_gui ('USUGER.4', 'USUGER');
+select pxp.f_delete_tprocedimiento_gui ('SCGER_DATO_INS', 'DATO');
+select pxp.f_delete_tprocedimiento_gui ('SCGER_DATO_MOD', 'DATO');
+select pxp.f_delete_tprocedimiento_gui ('SCGER_DATO_ELI', 'DATO');
+select pxp.f_delete_tprocedimiento_gui ('SCGER_DATO_SEL', 'DATO');
+select pxp.f_delete_tprocedimiento_gui ('SCGER_TIPDAT_SEL', 'DATO');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_FILI_INS', 'FILI', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_FILI_MOD', 'FILI', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_FILI_ELI', 'FILI', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_FILI_SEL', 'FILI', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_DATO_INS', 'TIPDAT.1', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_DATO_MOD', 'TIPDAT.1', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_DATO_ELI', 'TIPDAT.1', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_DATO_SEL', 'TIPDAT.1', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_VALOR_INS', 'VALOR', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_VALOR_MOD', 'VALOR', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_VALOR_ELI', 'VALOR', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_VALOR_SEL', 'VALOR', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_PERI_INS', 'GES.1', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_PERI_MOD', 'GES.1', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_PERI_ELI', 'GES.1', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_PERI_SEL', 'GES.1', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_DATO_SEL', 'VALOR', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_PERI_SEL', 'VALOR', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_PERSON_SEL', 'USUGER', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_PERSONMIN_SEL', 'USUGER', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_CLASIF_SEL', 'USUGER', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_ROL_SEL', 'USUGER', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_USUARI_INS', 'USUGER', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_USUARI_MOD', 'USUGER', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_USUARI_ELI', 'USUGER', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_USUARI_SEL', 'USUGER', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_LISTUSU_SEG', 'USUGER', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_PERSON_INS', 'USUGER.1', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_PERSON_MOD', 'USUGER.1', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_PERSON_ELI', 'USUGER.1', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_PERSONMIN_SEL', 'USUGER.1', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_UPFOTOPER_MOD', 'USUGER.1.1', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_ROL_SEL', 'USUGER.2', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_USUROL_INS', 'USUGER.2', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_USUROL_MOD', 'USUGER.2', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_USUROL_ELI', 'USUGER.2', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SEG_USUROL_SEL', 'USUGER.2', 'no');
+select pxp.f_insert_tprocedimiento_gui ('PM_GRU_SEL', 'USUGER.3', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SG_UEP_INS', 'USUGER.3', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SG_UEP_MOD', 'USUGER.3', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SG_UEP_ELI', 'USUGER.3', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SG_UEP_SEL', 'USUGER.3', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_USUFIL_INS', 'USUGER.4', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_USUFIL_MOD', 'USUGER.4', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_USUFIL_ELI', 'USUGER.4', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_USUFIL_SEL', 'USUGER.4', 'no');
+/********************************************F-DEP-MZM-SCGER-1-31/07/2014********************************************/

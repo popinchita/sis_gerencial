@@ -132,3 +132,41 @@ select pxp.f_insert_tprocedimiento ('SCGER_PERI_ELI', 'Eliminacion de registros'
 select pxp.f_insert_tprocedimiento ('SCGER_PERI_SEL', 'Consulta de datos', 'si', '', '', 'scger.ft_gestion_periodo_sel');
 select pxp.f_insert_tprocedimiento ('SCGER_PERI_CONT', 'Conteo de registros', 'si', '', '', 'scger.ft_gestion_periodo_sel');
 /********************************************F-DAT-MZM-SCGER-1-25/07/2014********************************************/
+
+
+
+
+
+
+/********************************************I-DAT-MZM-SCGER-1-31/07/2014********************************************/
+select pxp.f_insert_tgui ('Def. Usuarios', 'Def. Usuarios', 'USUGER', 'si', 1, 'sis_gerencial/vista/usuario_ger/UsuarioGer.php', 2, '', 'UsuarioGer', 'SCGER');
+select pxp.f_insert_tgui ('Definicion de Periodos', 'Definicion de Periodos', 'GES.1', 'no', 0, 'sis_gerencial/vista/gestion_periodo/GestionPeriodo.php', 3, '', '50%', 'SCGER');
+select pxp.f_insert_tgui ('Personas', 'Personas', 'USUGER.1', 'no', 0, 'sis_seguridad/vista/persona/Persona.php', 3, '', 'persona', 'SCGER');
+select pxp.f_insert_tgui ('Roles', 'Roles', 'USUGER.2', 'no', 0, 'sis_seguridad/vista/usuario_rol/UsuarioRol.php', 3, '', 'usuario_rol', 'SCGER');
+select pxp.f_insert_tgui ('EP\', 'EP\', 'USUGER.3', 'no', 0, 'sis_seguridad/vista/usuario_grupo_ep/UsuarioGrupoEp.php', 3, '', ', 
+          width:400,
+          cls:', 'SCGER');
+select pxp.f_insert_tgui ('Subir foto', 'Subir foto', 'USUGER.1.1', 'no', 0, 'sis_seguridad/vista/persona/subirFotoPersona.php', 4, '', 'subirFotoPersona', 'SCGER');
+select pxp.f_insert_tgui ('Filiales', 'Filiales', 'USUGER.4', 'no', 0, 'sis_gerencial/vista/usuario_filial/UsuarioFilial.php', 3, '', 'UsuarioFilial', 'SCGER');
+select pxp.f_insert_tfuncion ('scger.ft_dato_valor_ime', 'Funcion para tabla     ', 'SCGER');
+select pxp.f_insert_tfuncion ('scger.ft_dato_valor_sel', 'Funcion para tabla     ', 'SCGER');
+select pxp.f_insert_tfuncion ('scger.ft_gestion_periodo_ime', 'Funcion para tabla     ', 'SCGER');
+select pxp.f_insert_tfuncion ('scger.ft_gestion_periodo_sel', 'Funcion para tabla     ', 'SCGER');
+select pxp.f_insert_tfuncion ('scger.ft_usuario_filial_ime', 'Funcion para tabla     ', 'SCGER');
+select pxp.f_insert_tfuncion ('scger.ft_usuario_filial_sel', 'Funcion para tabla     ', 'SCGER');
+select pxp.f_insert_tprocedimiento ('SCGER_VALOR_INS', 'Insercion de registros', 'si', '', '', 'scger.ft_dato_valor_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_VALOR_MOD', 'Modificacion de registros', 'si', '', '', 'scger.ft_dato_valor_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_VALOR_ELI', 'Eliminacion de registros', 'si', '', '', 'scger.ft_dato_valor_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_VALOR_SEL', 'Consulta de datos', 'si', '', '', 'scger.ft_dato_valor_sel');
+select pxp.f_insert_tprocedimiento ('SCGER_VALOR_CONT', 'Conteo de registros', 'si', '', '', 'scger.ft_dato_valor_sel');
+select pxp.f_insert_tprocedimiento ('SCGER_PERI_INS', 'Insercion de registros', 'si', '', '', 'scger.ft_gestion_periodo_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_PERI_MOD', 'Modificacion de registros', 'si', '', '', 'scger.ft_gestion_periodo_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_PERI_ELI', 'Eliminacion de registros', 'si', '', '', 'scger.ft_gestion_periodo_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_PERI_SEL', 'Consulta de datos', 'si', '', '', 'scger.ft_gestion_periodo_sel');
+select pxp.f_insert_tprocedimiento ('SCGER_PERI_CONT', 'Conteo de registros', 'si', '', '', 'scger.ft_gestion_periodo_sel');
+select pxp.f_insert_tprocedimiento ('SCGER_USUFIL_INS', 'Insercion de registros', 'si', '', '', 'scger.ft_usuario_filial_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_USUFIL_MOD', 'Modificacion de registros', 'si', '', '', 'scger.ft_usuario_filial_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_USUFIL_ELI', 'Eliminacion de registros', 'si', '', '', 'scger.ft_usuario_filial_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_USUFIL_SEL', 'Consulta de datos', 'si', '', '', 'scger.ft_usuario_filial_sel');
+select pxp.f_insert_tprocedimiento ('SCGER_USUFIL_CONT', 'Conteo de registros', 'si', '', '', 'scger.ft_usuario_filial_sel');
+/********************************************F-DAT-MZM-SCGER-1-31/07/2014********************************************/
