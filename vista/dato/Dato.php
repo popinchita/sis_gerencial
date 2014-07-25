@@ -19,7 +19,7 @@ Phx.vista.Dato=Ext.extend(Phx.gridInterfaz,{
 
 
 		this.init();
-		this.load({params:{start:0, limit:this.tam_pag}})
+		//this.load({params:{start:0, limit:this.tam_pag}})
 	},
 			
 	Atributos:[
@@ -179,7 +179,7 @@ Phx.vista.Dato=Ext.extend(Phx.gridInterfaz,{
 	bsave:true,
 
 	onSubmit:function(o){
-	 this.Cmp.formula.setValue(encodeURIComponent(this.Cmp.formula.getValue()));
+	  this.Cmp.formula.setValue(encodeURIComponent(this.Cmp.formula.getValue()));
 	  Phx.vista.Dato.superclass.onSubmit.call(this,o);
 	},
     onReloadPage:function(m){

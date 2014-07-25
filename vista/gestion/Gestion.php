@@ -163,7 +163,13 @@ Phx.vista.Gestion=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
+	bsave:true,
+	east:{
+		  url:'../../../sis_gerencial/vista/gestion_periodo/GestionPeriodo.php',
+		  title:'Definicion de Periodos', 
+		  width:'50%',
+		  cls:'GestionPeriodo'
+	},
 	}
 )
 </script>

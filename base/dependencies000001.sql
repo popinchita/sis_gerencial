@@ -97,3 +97,33 @@ ALTER TABLE scger.tdato
   ADD COLUMN orden_ejecucion INTEGER;
 
 /********************************************F-DEP-MZM-SCGER-1-23/07/2014********************************************/
+
+  
+  
+/********************************************I-DEP-MZM-SCGER-1-24/07/2014********************************************/  
+ALTER TABLE ONLY scger.tusuario_filial
+    ADD CONSTRAINT fk_tusuario_filial__id_usuario
+    FOREIGN KEY (id_usuario) REFERENCES segu.tusuario(id_usuario);
+    
+    
+ALTER TABLE ONLY scger.tusuario_filial
+    ADD CONSTRAINT fk_tusuario_filial__id_filial
+    FOREIGN KEY (id_filial) REFERENCES scger.tfilial(id_filial); 
+   
+/********************************************F-DEP-MZM-SCGER-1-24/07/2014********************************************/
+    
+    
+    
+    
+   
+/********************************************I-DEP-MZM-SCGER-1-25/07/2014********************************************/
+select pxp.f_insert_testructura_gui ('VALOR', 'SCGER');
+select pxp.f_insert_testructura_gui ('TIPDAT.1', 'TIPDAT');
+select pxp.f_delete_tprocedimiento_gui ('SCGER_TIPDAT_SEL', 'DATO');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_VALOR_INS', 'VALOR', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_VALOR_MOD', 'VALOR', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_VALOR_ELI', 'VALOR', 'no');
+select pxp.f_insert_tprocedimiento_gui ('SCGER_VALOR_SEL', 'VALOR', 'no');
+/********************************************F-DEP-MZM-SCGER-1-25/07/2014********************************************/
+
+    

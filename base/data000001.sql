@@ -107,3 +107,28 @@ select pxp.f_insert_tprocedimiento ('SCGER_FILI_INS', 'Insercion de registros', 
 select pxp.f_insert_tprocedimiento ('SCGER_FILI_MOD', 'Modificacion de registros', 'si', '', '', 'scger.ft_filial_ime');
 select pxp.f_insert_tprocedimiento ('SCGER_FILI_ELI', 'Eliminacion de registros', 'si', '', '', 'scger.ft_filial_ime');
 /********************************************F-DAT-MZM-SCGER-1-23/07/2014********************************************/
+
+
+
+    ----------------------------------
+--COPY LINES TO data.sql FILE  
+---------------------------------
+/********************************************I-DAT-MZM-SCGER-1-25/07/2014********************************************/
+select pxp.f_delete_tgui ('DATO');
+select pxp.f_insert_tgui ('Valor', 'Valor', 'VALOR', 'si', 5, 'sis_gerencial/vista/dato_valor/DatoValor.php', 2, '', 'DatoValor', 'SCGER');
+select pxp.f_insert_tgui ('Definicion de Datos', 'Definicion de Datos', 'TIPDAT.1', 'no', 0, 'sis_gerencial/vista/dato/Dato.php', 3, '', '50%', 'SCGER');
+select pxp.f_insert_tfuncion ('scger.ft_dato_valor_ime', 'Funcion para tabla     ', 'SCGER');
+select pxp.f_insert_tfuncion ('scger.ft_dato_valor_sel', 'Funcion para tabla     ', 'SCGER');
+select pxp.f_insert_tfuncion ('scger.ft_gestion_periodo_ime', 'Funcion para tabla     ', 'SCGER');
+select pxp.f_insert_tfuncion ('scger.ft_gestion_periodo_sel', 'Funcion para tabla     ', 'SCGER');
+select pxp.f_insert_tprocedimiento ('SCGER_VALOR_INS', 'Insercion de registros', 'si', '', '', 'scger.ft_dato_valor_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_VALOR_MOD', 'Modificacion de registros', 'si', '', '', 'scger.ft_dato_valor_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_VALOR_ELI', 'Eliminacion de registros', 'si', '', '', 'scger.ft_dato_valor_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_VALOR_SEL', 'Consulta de datos', 'si', '', '', 'scger.ft_dato_valor_sel');
+select pxp.f_insert_tprocedimiento ('SCGER_VALOR_CONT', 'Conteo de registros', 'si', '', '', 'scger.ft_dato_valor_sel');
+select pxp.f_insert_tprocedimiento ('SCGER_PERI_INS', 'Insercion de registros', 'si', '', '', 'scger.ft_gestion_periodo_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_PERI_MOD', 'Modificacion de registros', 'si', '', '', 'scger.ft_gestion_periodo_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_PERI_ELI', 'Eliminacion de registros', 'si', '', '', 'scger.ft_gestion_periodo_ime');
+select pxp.f_insert_tprocedimiento ('SCGER_PERI_SEL', 'Consulta de datos', 'si', '', '', 'scger.ft_gestion_periodo_sel');
+select pxp.f_insert_tprocedimiento ('SCGER_PERI_CONT', 'Conteo de registros', 'si', '', '', 'scger.ft_gestion_periodo_sel');
+/********************************************F-DAT-MZM-SCGER-1-25/07/2014********************************************/

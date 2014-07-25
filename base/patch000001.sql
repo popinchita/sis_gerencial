@@ -91,3 +91,16 @@ CREATE TABLE scger.tdato_valor (
 ) INHERITS (pxp.tbase)
 WITH OIDS;
 /****************************F-SCP-MZM-SCGER-1-21/07/2014*************/ 
+
+
+/****************************I-SCP-MZM-SCGER-1-24/07/2014*************/
+-- Structure for table tperiodo (OID = 306372) : 
+--
+CREATE TABLE scger.tusuario_filial (
+    id_usuario_filial serial NOT NULL,
+    id_usuario integer,
+    id_filial integer,
+    PRIMARY KEY (id_usuario_filial)
+)
+INHERITS (pxp.tbase) WITH OIDS;
+/****************************F-SCP-MZM-SCGER-1-24/07/2014*************/
