@@ -70,9 +70,9 @@ Phx.vista.UsuarioFilial=Ext.extend(Phx.gridInterfaz,{
 						direction: 'ASC'
 					},
 					totalProperty: 'total',
-					fields: ['id_filial', 'nombre', 'codigo'],
+					fields: ['id_filial', 'nombre', 'sigla'],
 					remoteSort: true,
-					baseParams: {par_filtro: 'fili.nombre#fili.codigo'}
+					baseParams: {par_filtro: 'fili.nombre#fili.sigla'}
 				}),
 				valueField: 'id_filial',
 				displayField: 'nombre',

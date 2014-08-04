@@ -13,6 +13,12 @@ class ACTGestionPeriodo extends ACTbase{
 		$this->objParam->defecto('ordenacion','id_gestion_periodo');
 
 		$this->objParam->defecto('dir_ordenacion','asc');
+		
+		if($this->objParam->getParametro('estado_reg')!=''){
+			$this->objParam->addFiltro("peri.estado_reg = ''".$this->objParam->getParametro('estado_reg')."''");
+		}
+		
+		
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam,$this);
 			$this->res = $this->objReporte->generarReporteListado('MODGestionPeriodo','listarGestionPeriodo');
@@ -37,6 +43,16 @@ class ACTGestionPeriodo extends ACTbase{
 	function eliminarGestionPeriodo(){
 			$this->objFunc=$this->create('MODGestionPeriodo');	
 		$this->res=$this->objFunc->eliminarGestionPeriodo($this->objParam);
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+	
+	
+	function AperturarGestionPeriodo(){
+	
+		//crea el objetoFunProcesoMacro que contiene todos los metodos del sistema de workflow
+		$this->objFunc=$this->create('MODGestionPeriodo');
+	
+		$this->res=$this->objFunc->AperturarGestionPeriodo($this->objParam);
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

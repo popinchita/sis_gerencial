@@ -18,20 +18,44 @@ Phx.vista.DatoValor=Ext.extend(Phx.gridInterfaz,{
 		this.initButtons=[this.cmbGestion, this.cmbFilial];
 		Phx.vista.DatoValor.superclass.constructor.call(this,config);
 		this.init();
-		this.load({params:{start:0, limit:this.tam_pag}})
+		//this.load({params:{start:0, limit:this.tam_pag}})
 
 
-		/*this.cmbGestion.on('select',function () {
+
+
+
+	    console.log(Phx.CP.config_ini.id_filial);
+
+		this.cmbGestion.on('select',function () {
 			
-			this.load({params:{start:0, limit:this.tam_pag,id_cargo:this.maestro.id_cargo,id_gestion:this.cmbGestion.getValue()}});
-			this.Cmp.id_centro_costo.store.baseParams = Ext.apply({id_gestion:this.cmbGestion.getValue()}, this.Cmp.id_centro_costo.store.baseParams);
+			this.load({params:{start:0, limit:this.tam_pag,id_gestion_periodo:this.cmbGestion.getValue(), id_filial:this.cmbFilial.getValue() }});
+			//this.Cmp.id_dato_valor.store.baseParams = Ext.apply({id_gestion:this.cmbGestion.getValue()}, this.Cmp.id_dato_valor.store.baseParams);
 		
 		},this);
 		
 		this.cmbGestion.store.load({params:{start:0, limit:this.tam_pag}, scope:this,callback: function (arr,op,suc) {
-			this.cmbGestion.setValue(arr[0].data.id_gestion);
-			this.Cmp.id_centro_costo.store.baseParams = Ext.apply({id_gestion:this.cmbGestion.getValue()}, this.Cmp.id_centro_costo.store.baseParams);			
-		}});*/
+			this.cmbGestion.setValue(arr[0].data.id_gestion_periodo);
+			//this.Cmp.id_dato_valor.store.baseParams = Ext.apply({id_gestion:this.cmbGestion.getValue()}, this.Cmp.id_dato_valor.store.baseParams);			
+		}});
+
+
+
+
+		this.cmbFilial.on('select',function () {
+			
+			this.load({params:{start:0, limit:this.tam_pag,id_filial:this.cmbFilial.getValue(),id_gestion_periodo:this.cmbGestion.getValue() }});
+			//this.Cmp.id_dato_valor.store.baseParams = Ext.apply({id_gestion:this.cmbGestion.getValue()}, this.Cmp.id_dato_valor.store.baseParams);
+		
+		},this);
+		
+		this.cmbFilial.store.load({params:{start:0, limit:this.tam_pag}, scope:this,callback: function (arr,op,suc) {
+			this.cmbFilial.setValue(arr[0].data.id_filial);
+			//this.Cmp.id_dato_valor.store.baseParams = Ext.apply({id_gestion:this.cmbGestion.getValue()}, this.Cmp.id_dato_valor.store.baseParams);			
+		}});
+
+
+		
+		
 	},
 			
 	Atributos:[
@@ -47,27 +71,27 @@ Phx.vista.DatoValor=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config: {
-				name: 'id_dato',
+				name: 'id_tipo_dato',
 				fieldLabel: 'Dato',
 				allowBlank: true,
 				emptyText: 'Elija una opción...',
 				store: new Ext.data.JsonStore({
-					url: '../../sis_gerencial/control/Dato/listarDato',
-					id: 'id_dato',
+					url: '../../sis_gerencial/control/TipoDato/listarTipoDato',
+					id: 'id_tipo_dato',
 					root: 'datos',
 					sortInfo: {
 						field: 'nombre',
 						direction: 'ASC'
 					},
 					totalProperty: 'total',
-					fields: ['id_dato', 'nombre', 'codigo'],
+					fields: ['id_tipo_dato', 'nombre', 'codigo'],
 					remoteSort: true,
-					baseParams: {par_filtro: 'dato.nombre#dato.codigo'}
+					baseParams: {par_filtro: 'tipdat.nombre#tipdat.codigo'}
 				}),
 				valueField: 'id_dato',
 				displayField: 'nombre',
-				gdisplayField: 'nombre',
-				hiddenName: 'id_dato',
+				gdisplayField: 'nombre_tipdat',
+				hiddenName: 'id_tipo_dato',
 				forceSelection: true,
 				typeAhead: false,
 				triggerAction: 'all',
@@ -79,12 +103,12 @@ Phx.vista.DatoValor=Ext.extend(Phx.gridInterfaz,{
 				gwidth: 150,
 				minChars: 2,
 				renderer : function(value, p, record) {
-					return String.format('{0}', record.data['nombre']);
+					return String.format('{0}', record.data['nombre_tipdat']);
 				}
 			},
 			type: 'ComboBox',
 			id_grupo: 0,
-			filters: {pfiltro: 'dato.nombre',type: 'string'},
+			filters: {pfiltro: 'tipdat.nombre',type: 'string'},
 			grid: true,
 			form: true
 		},
@@ -104,12 +128,14 @@ Phx.vista.DatoValor=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
+				
 				maxLength:1179650
 			},
 				type:'NumberField',
 				filters:{pfiltro:'valor.valor',type:'numeric'},
 				id_grupo:1,
 				grid:true,
+				egrid:true,
 				form:true
 		},
 	/*	{
@@ -228,7 +254,7 @@ Phx.vista.DatoValor=Ext.extend(Phx.gridInterfaz,{
 				type:'TextField',
 				filters:{pfiltro:'valor.usuario_ai',type:'string'},
 				id_grupo:1,
-				grid:true,
+				grid:false,
 				form:false
 		},
 		{
@@ -284,7 +310,8 @@ Phx.vista.DatoValor=Ext.extend(Phx.gridInterfaz,{
 		{name:'fecha_mod', type: 'date',dateFormat:'Y-m-d H:i:s.u'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
-		
+		{name:'codigo_tipdat', type: 'string'},
+		{name:'nombre_tipdat', type: 'string'}
 	],
 	sortInfo:{
 		field: 'id_dato_valor',
@@ -302,18 +329,18 @@ Phx.vista.DatoValor=Ext.extend(Phx.gridInterfaz,{
 				id: 'id_gestion_periodo',
 				root: 'datos',
 				sortInfo:{
-					field: 'gestion',
-					direction: 'DESC'
+					field: 'gestion,periodo',
+					direction: 'ASC'
 				},
 				totalProperty: 'total',
-				fields: ['id_gestion_gestion_periodo','gestion','periodo','gestion_periodo'],
+				fields: ['id_gestion_periodo','gestion','periodo','periodo_gestion'],
 				// turn on remote sorting
 				remoteSort: true,
-				baseParams:{par_filtro:'gestion'}
+				baseParams:{estado_reg:'abierto'}
 			}),
 			valueField: 'id_gestion_periodo',
 			triggerAction: 'all',
-			displayField: 'gestion_periodo',
+			displayField: 'periodo_gestion',
 		    hiddenName: 'id_gestion_periodo',
 			mode:'remote',
 			pageSize:50,
@@ -341,7 +368,7 @@ Phx.vista.DatoValor=Ext.extend(Phx.gridInterfaz,{
 					fields: ['id_filial','nombre','codigo'],
 					// turn on remote sorting
 					remoteSort: true,
-					baseParams:{par_filtro:'estado'}
+					baseParams:{par_filtro:'nombre', id_filial:Phx.CP.config_ini.id_filial}
 				}),
 				valueField: 'id_filial',
 				triggerAction: 'all',
@@ -351,7 +378,7 @@ Phx.vista.DatoValor=Ext.extend(Phx.gridInterfaz,{
 				pageSize:50,
 				queryDelay:500,
 				listWidth:'280',
-				width:80
+				width:180
 			}),
 		
 	

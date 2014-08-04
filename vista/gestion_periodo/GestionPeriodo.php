@@ -18,6 +18,16 @@ Phx.vista.GestionPeriodo=Ext.extend(Phx.gridInterfaz,{
 		Phx.vista.GestionPeriodo.superclass.constructor.call(this,config);
 		this.init();
 		//this.load({params:{start:0, limit:this.tam_pag}})
+
+		 this.addButton('apertura',{
+             text:'Aperturar Periodo',
+             iconCls:'badelante',
+             disabled:true,
+             handler:this.aperturarPeriodo,
+             tooltip: '<b>Aperturar Periodo</b>'});
+
+
+		
 	},
 			
 	Atributos:[
@@ -236,7 +246,40 @@ Phx.vista.GestionPeriodo=Ext.extend(Phx.gridInterfaz,{
     {
         this.Cmp.id_gestion.setValue(this.maestro.id_gestion);       
         Phx.vista.GestionPeriodo.superclass.loadValoresIniciales.call(this);
-    }
+    },
+
+    aperturarPeriodo:function(){
+        
+            var data=this.sm.getSelected().data.id_gestion_periodo;
+           // this.Cmp.estado_reg.setValue('abierto');
+			Phx.CP.loadingShow();
+			Ext.Ajax.request({
+				url:'../../sis_gerencial/control/GestionPeriodo/AperturarGestionPeriodo',
+				params:{'id_gestion_periodo':data},
+				success:this.successCerrar,
+				failure: this.conexionFailure,
+				timeout:this.timeout,
+				scope:this
+			});	
+
+            
+  },successCerrar: function(resp){
+      Phx.CP.loadingHide();
+
+       this.reload();
+   },
+
+   EnableSelect: function(n,extra) {
+		
+       var data = this.getSelectedData();
+       if(data.estado_reg=='abierto'){
+    	   this.getBoton('apertura').disable();
+	    }else{
+	    	this.getBoton('apertura').enable();
+	    }
+}
+  
+    
 }
 )
 </script>

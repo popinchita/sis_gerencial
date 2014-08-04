@@ -1,8 +1,11 @@
-CREATE OR REPLACE FUNCTION "scger"."ft_dato_valor_ime" (	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
-
+CREATE OR REPLACE FUNCTION scger.ft_dato_valor_ime (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		Sistema de Control Gerencial
  FUNCION: 		scger.ft_dato_valor_ime
@@ -45,7 +48,7 @@ BEGIN
         begin
         	--Sentencia de la insercion
         	insert into scger.tdato_valor(
-			id_dato,
+			id_tipo_dato,
 			id_filial,
 			valor,
 			id_gestion_periodo,
@@ -57,7 +60,7 @@ BEGIN
 			id_usuario_mod,
 			fecha_mod
           	) values(
-			v_parametros.id_dato,
+			v_parametros.id_tipo_dato,
 			v_parametros.id_filial,
 			v_parametros.valor,
 			v_parametros.id_gestion_periodo,
@@ -94,7 +97,7 @@ BEGIN
 		begin
 			--Sentencia de la modificacion
 			update scger.tdato_valor set
-			id_dato = v_parametros.id_dato,
+			--id_tipo_dato = v_parametros.id_tipo_dato,
 			id_filial = v_parametros.id_filial,
 			valor = v_parametros.valor,
 			id_gestion_periodo = v_parametros.id_gestion_periodo,
@@ -152,7 +155,9 @@ EXCEPTION
 		raise exception '%',v_resp;
 				        
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "scger"."ft_dato_valor_ime"(integer, integer, character varying, character varying) OWNER TO postgres;

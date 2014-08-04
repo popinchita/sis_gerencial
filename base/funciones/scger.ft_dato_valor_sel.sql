@@ -1,7 +1,11 @@
-CREATE OR REPLACE FUNCTION "scger"."ft_dato_valor_sel"(	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
+CREATE OR REPLACE FUNCTION scger.ft_dato_valor_sel (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		Sistema de Control Gerencial
  FUNCION: 		scger.ft_dato_valor_sel
@@ -23,7 +27,7 @@ DECLARE
 	v_parametros  		record;
 	v_nombre_funcion   	text;
 	v_resp				varchar;
-			    
+	v_filadd	varchar;		    
 BEGIN
 
 	v_nombre_funcion = 'scger.ft_dato_valor_sel';
@@ -40,9 +44,31 @@ BEGIN
      				
     	begin
     		--Sentencia de la consulta
+            
+             v_filadd = ' 0=0 ';
+            
+             IF (pxp.f_existe_parametro(p_tabla,'id_filial')) THEN
+                 v_filadd = ' valor.id_filial = '||v_parametros.id_filial||' ';
+                 IF (pxp.f_existe_parametro(p_tabla,'id_gestion_periodo')) THEN
+                     v_filadd = v_filadd || ' and valor.id_gestion_periodo = '||v_parametros.id_gestion_periodo||' ';
+             	  end if;
+             else
+             
+                IF (pxp.f_existe_parametro(p_tabla,'id_gestion_periodo')) THEN
+                  v_filadd = ' valor.id_gestion_periodo = '||v_parametros.id_gestion_periodo||' ';
+             	end if;
+             end if;
+             
+            
+               
+           
+            
+           
+            
+            
 			v_consulta:='select
 						valor.id_dato_valor,
-						valor.id_dato,
+						valor.id_tipo_dato,
 						valor.id_filial,
 						valor.valor,
 						valor.id_gestion_periodo,
@@ -54,11 +80,15 @@ BEGIN
 						valor.id_usuario_mod,
 						valor.fecha_mod,
 						usu1.cuenta as usr_reg,
-						usu2.cuenta as usr_mod	
+						usu2.cuenta as usr_mod	,
+                        tipdat.codigo as codigo_tipdat,
+                        tipdat.nombre as nombre_tipdat
+                        
 						from scger.tdato_valor valor
+                        inner join scger.ttipo_dato tipdat on tipdat.id_tipo_dato=valor.id_tipo_dato
 						inner join segu.tusuario usu1 on usu1.id_usuario = valor.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = valor.id_usuario_mod
-				        where  ';
+				         where '||v_filadd||' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -82,6 +112,7 @@ BEGIN
 			--Sentencia de la consulta de conteo de registros
 			v_consulta:='select count(id_dato_valor)
 					    from scger.tdato_valor valor
+                        inner join scger.ttipo_dato tipdat on tipdat.id_tipo_dato=valor.id_tipo_dato
 					    inner join segu.tusuario usu1 on usu1.id_usuario = valor.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = valor.id_usuario_mod
 					    where ';
@@ -109,7 +140,9 @@ EXCEPTION
 			v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
 			raise exception '%',v_resp;
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "scger"."ft_dato_valor_sel"(integer, integer, character varying, character varying) OWNER TO postgres;

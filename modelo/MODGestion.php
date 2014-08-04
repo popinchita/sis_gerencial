@@ -18,7 +18,8 @@ class MODGestion extends MODbase{
 		$this->procedimiento='scger.ft_gestion_sel';
 		$this->transaccion='SCGER_GES_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
-				
+
+		//$this->setParametro('estado_reg','estado_reg','varchar');
 		//Definicion de la lista del resultado del query
 		$this->captura('id_gestion','int4');
 		$this->captura('estado_reg','varchar');

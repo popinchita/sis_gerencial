@@ -1,8 +1,11 @@
-CREATE OR REPLACE FUNCTION "scger"."ft_gestion_periodo_ime" (	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
-
+CREATE OR REPLACE FUNCTION scger.ft_gestion_periodo_ime (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		Sistema de Control Gerencial
  FUNCION: 		scger.ft_gestion_periodo_ime
@@ -27,6 +30,9 @@ DECLARE
 	v_nombre_funcion        text;
 	v_mensaje_error         text;
 	v_id_gestion_periodo	integer;
+    
+    v_filiales	record;
+    v_tipo_dato	record;
 			    
 BEGIN
 
@@ -61,7 +67,7 @@ BEGIN
 			v_parametros.periodo,
 			v_parametros.fecha_ini,
 			v_parametros.fecha_fin,
-			'activo',
+			'cerrado',
 			p_id_usuario,
 			now(),
 			v_parametros._nombre_usuario_ai,
@@ -123,6 +129,12 @@ BEGIN
 	elsif(p_transaccion='SCGER_PERI_ELI')then
 
 		begin
+
+			--validar que no existan dato_valor para este periodo
+            if exists(select 1 from scger.tdato_valor where id_gestion_periodo=v_parametros.id_gestion_periodo ) then
+               raise exception 'eliminacion no realizada. Existen registros en Dato Valor para este periodo';
+            end if;
+            
 			--Sentencia de la eliminacion
 			delete from scger.tgestion_periodo
             where id_gestion_periodo=v_parametros.id_gestion_periodo;
@@ -135,7 +147,38 @@ BEGIN
             return v_resp;
 
 		end;
-         
+    elsif(p_transaccion='SCGER_PERI_APE')then
+
+		begin
+			
+        
+           if exists (select 1 from scger.tgestion_periodo where id_gestion_periodo=v_parametros.id_gestion_periodo and estado_reg='cerrado') then
+               
+               update scger.tgestion_periodo
+               set estado_reg='abierto'
+               where id_gestion_periodo=v_parametros.id_gestion_periodo;
+               
+               -- una vez aperturado... se llena la tabla dato_valor con 0 para todas las filiales registradas y para las columnas definidas como variable
+               for v_filiales in (select * from scger.tfilial where estado_reg='activo' ) loop
+					for v_tipo_dato in (select * from scger.ttipo_dato where estado_reg='activo' and tipo_dato ='variable') loop
+                        insert into scger.tdato_valor (valor ,id_gestion_periodo ,id_filial ,id_tipo_dato ,estado_reg, id_usuario_reg, fecha_reg)
+                        values(0.00,v_parametros.id_gestion_periodo, v_filiales.id_filial, v_tipo_dato.id_tipo_dato,'activo',p_id_usuario, now());
+                    
+                    end loop;
+               end loop;
+           
+           else
+              raise exception 'El periodo no está disponible para apertura';
+           end if;
+               
+            --Definicion de la respuesta
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Periodo eliminado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_gestion_periodo',v_parametros.id_gestion_periodo::varchar);
+              
+            --Devuelve la respuesta
+            return v_resp;
+
+		end;     
 	else
      
     	raise exception 'Transaccion inexistente: %',p_transaccion;
@@ -152,7 +195,9 @@ EXCEPTION
 		raise exception '%',v_resp;
 				        
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "scger"."ft_gestion_periodo_ime"(integer, integer, character varying, character varying) OWNER TO postgres;

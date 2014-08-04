@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION scger.ft_tipo_dato_sel (
+CREATE OR REPLACE FUNCTION scger.ft_dato_valor_sel (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -8,10 +8,10 @@ RETURNS varchar AS
 $body$
 /**************************************************************************
  SISTEMA:		Sistema de Control Gerencial
- FUNCION: 		scger.ft_tipo_dato_sel
- DESCRIPCION:   Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla 'scger.ttipo_dato'
+ FUNCION: 		scger.ft_dato_valor_sel
+ DESCRIPCION:   Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla 'scger.tdato_valor'
  AUTOR: 		 (admin)
- FECHA:	        22-07-2014 01:34:27
+ FECHA:	        24-07-2014 07:59:41
  COMENTARIOS:	
 ***************************************************************************
  HISTORIAL DE MODIFICACIONES:
@@ -30,35 +30,38 @@ DECLARE
 			    
 BEGIN
 
-	v_nombre_funcion = 'scger.ft_tipo_dato_sel';
+	v_nombre_funcion = 'scger.ft_dato_valor_sel';
     v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************    
- 	#TRANSACCION:  'SCGER_TIPDAT_SEL'
+ 	#TRANSACCION:  'SCGER_VALOR_SEL'
  	#DESCRIPCION:	Consulta de datos
  	#AUTOR:		admin	
- 	#FECHA:		22-07-2014 01:34:27
+ 	#FECHA:		24-07-2014 07:59:41
 	***********************************/
 
-	if(p_transaccion='SCGER_TIPDAT_SEL')then
+	if(p_transaccion='SCGER_VALOR_SEL')then
      				
     	begin
     		--Sentencia de la consulta
 			v_consulta:='select
-						tipdat.id_tipo_dato,
-						tipdat.codigo,
-						tipdat.nombre,
-						tipdat.estado_reg,
-						tipdat.id_usuario_reg,
-						tipdat.fecha_reg,
-						tipdat.id_usuario_mod,
-						tipdat.fecha_mod,
+						valor.id_dato_valor,
+						valor.id_tipo_dato,
+						valor.id_filial,
+						valor.valor,
+						valor.id_gestion_periodo,
+						valor.estado_reg,
+						valor.id_usuario_reg,
+						valor.fecha_reg,
+						valor.id_usuario_ai,
+						valor.usuario_ai,
+						valor.id_usuario_mod,
+						valor.fecha_mod,
 						usu1.cuenta as usr_reg,
-						usu2.cuenta as usr_mod	,
-                        tipdat.tipo_dato
-						from scger.ttipo_dato tipdat
-						inner join segu.tusuario usu1 on usu1.id_usuario = tipdat.id_usuario_reg
-						left join segu.tusuario usu2 on usu2.id_usuario = tipdat.id_usuario_mod
+						usu2.cuenta as usr_mod	
+						from scger.tdato_valor valor
+						inner join segu.tusuario usu1 on usu1.id_usuario = valor.id_usuario_reg
+						left join segu.tusuario usu2 on usu2.id_usuario = valor.id_usuario_mod
 				        where  ';
 			
 			--Definicion de la respuesta
@@ -71,20 +74,20 @@ BEGIN
 		end;
 
 	/*********************************    
- 	#TRANSACCION:  'SCGER_TIPDAT_CONT'
+ 	#TRANSACCION:  'SCGER_VALOR_CONT'
  	#DESCRIPCION:	Conteo de registros
  	#AUTOR:		admin	
- 	#FECHA:		22-07-2014 01:34:27
+ 	#FECHA:		24-07-2014 07:59:41
 	***********************************/
 
-	elsif(p_transaccion='SCGER_TIPDAT_CONT')then
+	elsif(p_transaccion='SCGER_VALOR_CONT')then
 
 		begin
 			--Sentencia de la consulta de conteo de registros
-			v_consulta:='select count(id_tipo_dato)
-					    from scger.ttipo_dato tipdat
-					    inner join segu.tusuario usu1 on usu1.id_usuario = tipdat.id_usuario_reg
-						left join segu.tusuario usu2 on usu2.id_usuario = tipdat.id_usuario_mod
+			v_consulta:='select count(id_dato_valor)
+					    from scger.tdato_valor valor
+					    inner join segu.tusuario usu1 on usu1.id_usuario = valor.id_usuario_reg
+						left join segu.tusuario usu2 on usu2.id_usuario = valor.id_usuario_mod
 					    where ';
 			
 			--Definicion de la respuesta		    

@@ -12,6 +12,11 @@ class ACTFilial extends ACTbase{
 	function listarFilial(){
 		$this->objParam->defecto('ordenacion','id_filial');
 
+		if($this->objParam->getParametro('id_filial')!=''){
+			$this->objParam->addFiltro("fili.id_filial = ''".$this->objParam->getParametro('id_filial')."''");
+		}
+		
+		
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam,$this);

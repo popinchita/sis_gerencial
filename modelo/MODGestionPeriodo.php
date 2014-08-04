@@ -18,7 +18,10 @@ class MODGestionPeriodo extends MODbase{
 		$this->procedimiento='scger.ft_gestion_periodo_sel';
 		$this->transaccion='SCGER_PERI_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
-				
+
+		
+		
+		$this->setParametro('estado_reg','estado_reg','varchar');
 		//Definicion de la lista del resultado del query
 		$this->captura('id_gestion_periodo','int4');
 		$this->captura('id_gestion','int4');
@@ -34,7 +37,7 @@ class MODGestionPeriodo extends MODbase{
 		$this->captura('fecha_mod','timestamp');
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
-		$this->captura('gestion_periodo','text');
+		$this->captura('periodo_gestion','text');
 		//Ejecuta la instruccion
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
@@ -102,6 +105,24 @@ class MODGestionPeriodo extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
-			
+
+	
+	function AperturarGestionPeriodo(){
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='scger.ft_gestion_periodo_ime';
+		$this->transaccion='SCGER_PERI_APE';
+		$this->tipo_procedimiento='IME';
+	
+		//Define los parametros para la funcion
+		$this->setParametro('id_gestion_periodo','id_gestion_periodo','int4');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+	
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
 }
 ?>

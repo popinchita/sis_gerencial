@@ -20,8 +20,12 @@ class MODDatoValor extends MODbase{
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 				
 		//Definicion de la lista del resultado del query
+		
+		$this->setParametro('id_filial','id_filial','integer');
+		
+		
 		$this->captura('id_dato_valor','int4');
-		$this->captura('id_dato','int4');
+		$this->captura('id_tipo_dato','int4');
 		$this->captura('id_filial','int4');
 		$this->captura('valor','numeric');
 		$this->captura('id_gestion_periodo','int4');
@@ -35,8 +39,12 @@ class MODDatoValor extends MODbase{
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
 		
+		$this->captura('codigo_tipdat','varchar');
+		$this->captura('nombre_tipdat','varchar');
+		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
+		
 		$this->ejecutarConsulta();
 		
 		//Devuelve la respuesta
@@ -50,7 +58,7 @@ class MODDatoValor extends MODbase{
 		$this->tipo_procedimiento='IME';
 				
 		//Define los parametros para la funcion
-		$this->setParametro('id_dato','id_dato','int4');
+		$this->setParametro('id_tipo_dato','id_tipo_dato','int4');
 		$this->setParametro('id_filial','id_filial','int4');
 		$this->setParametro('valor','valor','numeric');
 		$this->setParametro('id_gestion_periodo','id_gestion_periodo','int4');
@@ -58,6 +66,7 @@ class MODDatoValor extends MODbase{
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
+		
 		$this->ejecutarConsulta();
 
 		//Devuelve la respuesta
@@ -72,7 +81,7 @@ class MODDatoValor extends MODbase{
 				
 		//Define los parametros para la funcion
 		$this->setParametro('id_dato_valor','id_dato_valor','int4');
-		$this->setParametro('id_dato','id_dato','int4');
+		$this->setParametro('id_tipo_dato','id_tipo_dato','int4');
 		$this->setParametro('id_filial','id_filial','int4');
 		$this->setParametro('valor','valor','numeric');
 		$this->setParametro('id_gestion_periodo','id_gestion_periodo','int4');
